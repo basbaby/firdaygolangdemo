@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: firdaygolangdemo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: firdaygolangdemo
+  template:
+    metadata:
+      labels:
+        name: firdaygolangdemo
+    spec:
+      containers:
+      - image: kiranbabycontainerreg.azurecr.io/kiranbabycontainerrepo:firdaygolangdemo
+        name: kiranbabycontainerreg
+        ports:
+          - containerPort: 8081
+      imagePullSecrets: 
+      - name: firdaygolangdemosecret
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: firdaygolangdemo-service
+spec:
+  type: LoadBalancer
+  selector:
+    name: firdaygolangdemo
+  ports:
+  - name: http  
+    port: 80
+    targetPort: 8081
